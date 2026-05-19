@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# uv / venv
+.venv/
+
+# Ruff
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# データファイル（コミット不要）
+data/Online_Retail.xlsx
+data/transactions/
+data/products.csv
+data/countries.csv
+
+# macOS
+.DS_Store
+
+# Claude Code
+.claude/
+
+# 記事執筆用（リポジトリ管理不要）
+ideas/

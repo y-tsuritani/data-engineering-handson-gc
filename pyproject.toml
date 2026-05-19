@@ -1,0 +1,26 @@
+[project]
+name = "de-handson"
+version = "0.1.0"
+requires-python = "==3.12.*"
+dependencies = [
+    "pandas>=2.0",
+    "google-cloud-storage>=2.0",
+    "google-cloud-bigquery>=3.0",
+    "google-cloud-bigquery-storage>=2.0",
+    "pyarrow>=14.0",
+    "functions-framework>=3.0",
+]
+
+[dependency-groups]
+dev = [
+    "openpyxl>=3.1",
+    "jupyter>=1.0",
+    "ipykernel>=6.0",
+]
+
+[tool.ruff]
+line-length = 99
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
