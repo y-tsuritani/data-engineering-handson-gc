@@ -8,8 +8,8 @@ TRANSACTIONS_DIR = DATA_DIR / "transactions"
 PRODUCTS_PATH = DATA_DIR / "products.csv"
 COUNTRIES_PATH = DATA_DIR / "countries.csv"
 
-TARGET_YEAR = 2010
-TARGET_MONTH = 12
+PERIOD_START = pd.Timestamp("2010-12-01")
+PERIOD_END = pd.Timestamp("2011-02-28")
 
 
 def load_raw_data(filepath: Path) -> pd.DataFrame:
@@ -26,18 +26,20 @@ def load_raw_data(filepath: Path) -> pd.DataFrame:
     return df.dropna(subset=["InvoiceDate"])
 
 
-def filter_by_month(df: pd.DataFrame, year: int, month: int) -> pd.DataFrame:
-    """指定年月のデータのみ抽出して返す。
+def filter_by_period(
+    df: pd.DataFrame, start: pd.Timestamp, end: pd.Timestamp
+) -> pd.DataFrame:
+    """指定期間のデータのみ抽出して返す。
 
     Args:
         df: 対象 DataFrame。InvoiceDate 列が datetime 型であること。
-        year: 抽出する年。
-        month: 抽出する月。
+        start: 抽出開始日時（この日付を含む）。
+        end: 抽出終了日時（この日付を含む）。
 
     Returns:
-        指定年月のデータのみを含む DataFrame のコピー。
+        指定期間のデータのみを含む DataFrame のコピー。
     """
-    mask = (df["InvoiceDate"].dt.year == year) & (df["InvoiceDate"].dt.month == month)
+    mask = (df["InvoiceDate"] >= start) & (df["InvoiceDate"] <= end)
     return df[mask].copy()
 
 
@@ -91,22 +93,22 @@ def main() -> None:
     df = load_raw_data(RAW_XLSX)
     print(f"Total rows loaded: {len(df):,}")
 
-    df_month = filter_by_month(df, TARGET_YEAR, TARGET_MONTH)
-    print(f"Rows in {TARGET_YEAR}-{TARGET_MONTH:02d}: {len(df_month):,}")
+    df_period = filter_by_period(df, PERIOD_START, PERIOD_END)
+    print(f"Rows in {PERIOD_START.date()} - {PERIOD_END.date()}: {len(df_period):,}")
 
-    n_files = split_by_date(df_month, TRANSACTIONS_DIR)
-    extract_products(df_month, PRODUCTS_PATH)
-    extract_countries(df_month, COUNTRIES_PATH)
+    n_files = split_by_date(df_period, TRANSACTIONS_DIR)
+    extract_products(df_period, PRODUCTS_PATH)
+    extract_countries(df_period, COUNTRIES_PATH)
 
-    date_min = df_month["InvoiceDate"].min().date()
-    date_max = df_month["InvoiceDate"].max().date()
-    n_products = len(df_month[["StockCode", "Description"]].drop_duplicates())
-    n_countries = df_month["Country"].nunique()
+    date_min = df_period["InvoiceDate"].min().date()
+    date_max = df_period["InvoiceDate"].max().date()
+    n_products = len(df_period[["StockCode", "Description"]].drop_duplicates())
+    n_countries = df_period["Country"].nunique()
 
     print("\n=== 分割結果 ===")
     print(f"期間: {date_min} 〜 {date_max}")
     print(f"生成ファイル数: {n_files} 件")
-    print(f"総行数: {len(df_month):,} 行")
+    print(f"総行数: {len(df_period):,} 行")
     print(f"出力先: {TRANSACTIONS_DIR}/")
     print(f"商品マスタ: {PRODUCTS_PATH} ({n_products} 件)")
     print(f"国マスタ: {COUNTRIES_PATH} ({n_countries} 件)")

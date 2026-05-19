@@ -107,7 +107,8 @@ Part 2 under `02_cleaning/`:
 
 ## Data Notes
 
-- Dataset covers 2010-12-01 to 2010-12-23 (20 days; Saturdays have no data, Sundays do)
-- `CustomerID` is ~37% null — treat as guest purchases, not corrupt data
-- Negative `Quantity` rows (798) correspond to `InvoiceNo` starting with `C` (cancellations, 728 rows)
-- `UnitPrice = 0` rows (273) exist and require a business rule decision in Part 2
+- Dataset covers 2010-12-01 to 2011-02-27 (67 days / 3 months; Saturdays have no data, Sundays do)
+- `CustomerID` is ~34% null — treat as guest purchases, not corrupt data
+- Negative `Quantity` rows (2,114) correspond to `InvoiceNo` starting with `C` (cancellations, 1,903 rows)
+- `UnitPrice = 0` rows (484) exist and require a business rule decision in Part 2
+- Monthly breakdown: Dec-2010=42,481, Jan-2011=35,147, Feb-2011=25,970
