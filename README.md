@@ -1,5 +1,7 @@
 # GCP データエンジニアリング入門 ハンズオン
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 GCP を使ったデータエンジニアリングの入門シリーズです。  
 UCI Online Retail Dataset（英国小売店の取引データ）を題材に、データの取り込みからマート構築までを実装します。
 
