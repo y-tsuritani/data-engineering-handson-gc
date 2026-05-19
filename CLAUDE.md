@@ -48,6 +48,12 @@ gcloud functions deploy clean-and-load \
 export PROJECT_ID="${GOOGLE_CLOUD_PROJECT}"
 bash 02_cleaning/scripts/batch_clean_and_load.sh
 
+# Create mart views (Part 3)
+bq query --use_legacy_sql=false \
+  "$(sed "s/\${PROJECT_ID}/${GOOGLE_CLOUD_PROJECT}/g" 03_mart/sql/daily_summary.sql)"
+bq query --use_legacy_sql=false \
+  "$(sed "s/\${PROJECT_ID}/${GOOGLE_CLOUD_PROJECT}/g" 03_mart/sql/weekday_pattern.sql)"
+
 # Lint
 uv run ruff check 01_profiling/ 02_cleaning/
 uv run ruff format 01_profiling/ 02_cleaning/
@@ -79,6 +85,10 @@ Part 1 under `01_profiling/`:
 - `scripts/split_data.py` — reads xlsx, filters to 2010-12, writes daily CSVs + master files
 - `scripts/upload_to_gcs.py` — uploads local data to `raw/` prefix; requires `BUCKET_NAME` env var
 - `notebooks/profiling.ipynb` — loads all daily CSVs locally, profiles missing values / anomalies / date distribution
+
+Part 3 under `03_mart/`:
+- `sql/daily_summary.sql` — BigQuery ビュー `v_daily_summary`（日別×国別集計）
+- `sql/weekday_pattern.sql` — BigQuery ビュー `v_weekday_pattern`（曜日別集計）
 
 Part 2 under `02_cleaning/`:
 - `scripts/batch_clean_and_load.sh` — calls Cloud Run Function for each daily CSV; requires `PROJECT_ID` env var
