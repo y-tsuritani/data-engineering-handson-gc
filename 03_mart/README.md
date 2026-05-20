@@ -19,11 +19,11 @@ BigQuery の `transactions` テーブルからビューを作成し、Looker Stu
 ```bash
 # v_daily_summary
 bq query --use_legacy_sql=false \
-  "$(sed "s/\${PROJECT_ID}/${GOOGLE_CLOUD_PROJECT}/g" 03_mart/sql/daily_summary.sql)"
+  "$(sed "s/\${PROJECT_ID}/${PROJECT_ID}/g" 03_mart/sql/daily_summary.sql)"
 
 # v_weekday_pattern
 bq query --use_legacy_sql=false \
-  "$(sed "s/\${PROJECT_ID}/${GOOGLE_CLOUD_PROJECT}/g" 03_mart/sql/weekday_pattern.sql)"
+  "$(sed "s/\${PROJECT_ID}/${PROJECT_ID}/g" 03_mart/sql/weekday_pattern.sql)"
 ```
 
 または BigQuery コンソールのクエリエディタで `${PROJECT_ID}` を実際のプロジェクト ID に置換して実行。

@@ -30,11 +30,11 @@ gcloud iam service-accounts add-iam-policy-binding \
 
 ```bash
 # データセット作成
-bq mk --dataset --location=asia-northeast1 ${GOOGLE_CLOUD_PROJECT}:de_handson
+bq mk --dataset --location=us-central1 ${PROJECT_ID}:de_handson
 
-# テーブル作成
+# テーブル作成（schema.sql 内の ${PROJECT_ID} を sed で置換してから実行）
 bq query --use_legacy_sql=false \
-  "$(sed "s/\${PROJECT_ID}/${GOOGLE_CLOUD_PROJECT}/g" 02_cleaning/sql/schema.sql)"
+  "$(sed "s/\${PROJECT_ID}/${PROJECT_ID}/g" 02_cleaning/sql/schema.sql)"
 ```
 
 テーブルスキーマ（`sql/schema.sql` 参照）:
