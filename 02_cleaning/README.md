@@ -101,11 +101,12 @@ bash 02_cleaning/scripts/batch_clean_and_load.sh
 `cloud_run_function/main.py` の `clean_transactions()` が行う処理:
 
 1. **キャンセル取引の除外** — `InvoiceNo` が `C` 始まりの行を削除
-2. **数値型への強制変換** — `Quantity`・`UnitPrice` を `pd.to_numeric(errors="coerce")`
-3. **日時型への変換** — `InvoiceDate` を `pd.to_datetime(errors="coerce")`
-4. **売上金額の計算** — `sales_amount = Quantity × UnitPrice` を追加
-5. **CustomerID の型変換** — CSV 読み込み時に float64（`12345.0`）になるため `str`（`"12345"`）に変換
-6. **欠損行の除外** — `Quantity`・`UnitPrice`・`InvoiceDate` のいずれかが NaN の行を削除
+2. **InvoiceNo の STRING 変換** — キャンセル行除外後に全行が数値のみになると pandas が `int64` と推論するため明示的に `str` へ変換
+3. **数値型への強制変換** — `Quantity`・`UnitPrice` を `pd.to_numeric(errors="coerce")`
+4. **日時型への変換** — `InvoiceDate` を `pd.to_datetime(errors="coerce")`
+5. **売上金額の計算** — `sales_amount = Quantity × UnitPrice` を追加
+6. **CustomerID の型変換** — CSV 読み込み時に float64（`12345.0`）になるため `str`（`"12345"`）に変換
+7. **欠損行の除外** — `Quantity`・`UnitPrice`・`InvoiceDate` のいずれかが NaN の行を削除
 
 ## ローカルでのテスト
 
