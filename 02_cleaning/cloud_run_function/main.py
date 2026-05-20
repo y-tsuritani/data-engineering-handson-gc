@@ -48,6 +48,8 @@ def clean_transactions(df: pd.DataFrame) -> pd.DataFrame:
         クレンジング済みの DataFrame。
     """
     df = df[~df["InvoiceNo"].astype(str).str.startswith("C")].copy()
+    # C始まりを除外後、全行が数値になるとpandasがint64に推論するためSTRINGに明示変換
+    df["InvoiceNo"] = df["InvoiceNo"].astype(str)
 
     df["Quantity"] = pd.to_numeric(df["Quantity"], errors="coerce")
     df["UnitPrice"] = pd.to_numeric(df["UnitPrice"], errors="coerce")
