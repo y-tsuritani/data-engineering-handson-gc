@@ -4,7 +4,7 @@ BigQuery の `transactions` テーブルからビューを作成し、Looker Stu
 
 ## 前提条件
 
-- Part 2 が完了していること（`de_handson.transactions` に 41,753 行が存在する）
+- Part 2 が完了していること（`de_handson.transactions` に 101,695 行が存在する）
 - Looker Studio アカウント（Google アカウントで即時利用可）
 
 ## 作成するビュー
@@ -32,7 +32,7 @@ bq query --use_legacy_sql=false \
 
 ビュー作成後に以下のクエリで結果を確認します。
 
-**日別集計（20行返れば正常）**
+**日別集計（67行返れば正常）**
 
 ```sql
 SELECT
@@ -44,7 +44,7 @@ GROUP BY invoice_date
 ORDER BY invoice_date;
 ```
 
-期待値: 20行（2010-12-01〜12-23、土曜3日を除く）
+期待値: 67行（2010-12-01〜2011-02-27、土曜日を除く）
 
 **国別合計（上位10カ国）**
 
@@ -76,6 +76,8 @@ ORDER BY day_num;
 期待値: 6行（土曜日は取引ゼロのため GROUP BY に現れない）
 
 ## Looker Studio ダッシュボード
+
+公開済みダッシュボード: https://datastudio.google.com/reporting/75b2eead-bbc1-4f3f-ad14-99e1e2afe6cc
 
 ### BigQuery への接続
 
