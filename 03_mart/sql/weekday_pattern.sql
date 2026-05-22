@@ -1,5 +1,3 @@
--- 曜日別 集計ビュー
--- day_num を保持することで Looker Studio でアルファベット順ではなく曜日順にソートできる
 CREATE OR REPLACE VIEW `${PROJECT_ID}.de_handson.v_weekday_pattern` AS
 SELECT
   FORMAT_DATE('%A', DATE(InvoiceDate))  AS day_of_week,
